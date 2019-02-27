@@ -141,35 +141,37 @@ public class RayCastCamera : MonoBehaviour
         }
     }
 
-    [SerializeField] Camera otherCamera;
+    [Header("Configuration")]
+    [SerializeField] Camera virtualProjector;
     [SerializeField] int size = 4;
-    //[SerializeField] float maxRange = 100;
+    [SerializeField] bool compute = false;
+    Camera _camera;
 
-    float delta;
-    public int count = 0;
+    // The output of the compute process
     Vector2[] uv;
     Vector3[] xyz;
     BouncyRay[] rays;
-    Camera _camera;
+    BouncyRay physicalCenterBounce;
 
+    [Header("Display options")]
     [SerializeField] bool drawRays = false;
     [SerializeField] bool drawHits = true;
     [SerializeField] bool drawUnfold = true;
     [SerializeField] float hitRadius = 0.1f;
     [SerializeField] Color failColor = new Color(1, 1, 1, 0.25f);
 
-    [SerializeField] LayerMask targetMask;
-    [SerializeField] LayerMask bounceMask;
-
     private void Awake()
     {
         _camera = GetComponent<Camera>();
     }
 
-    float coverture = 0;
-    float lengthAvg = 0;
-    float lengthDev = 0;
-    int intersectionCount = 0;
+    [Header("Stats")]
+    [SerializeField] int count = 0;
+    [SerializeField] float coverture = 0;
+    [SerializeField] float lengthAvg = 0;
+    [SerializeField] float lengthDev = 0;
+    [SerializeField] int intersectionCount = 0;
+
     private void OnGUI()
     {
         GUI.color = Color.red;
@@ -178,8 +180,6 @@ public class RayCastCamera : MonoBehaviour
         GUI.Label(new Rect(0, 60, 100, 50), "Deviation:" + (lengthDev).ToString("0.0") + "cm");
     }
 
-    BouncyRay physicalCenterBounce;
-    public bool compute = false;
     private void OnDrawGizmos()
     {
         if (compute)
@@ -193,7 +193,7 @@ public class RayCastCamera : MonoBehaviour
             {
 
                 Vector2 uv = ray.uv;
-                Gizmos.color = ray.Hit ? new Color(uv.x, uv.y, 0, 0.25f) : new Color(1, 1, 1, 0.25f);
+                Gizmos.color = ray.Hit ? new Color(uv.x, uv.y, 0, 0.25f) : failColor;
 
                 if (drawRays || drawHits)
                 {
@@ -201,7 +201,7 @@ public class RayCastCamera : MonoBehaviour
                     for (int p = 1; p < hits.Length; ++p)
                     {
                         if (drawRays) Gizmos.DrawLine(hits[p - 1], hits[p]);
-                        if (drawHits) Gizmos.DrawSphere(hits[p], 0.25f);
+                        if (drawHits) Gizmos.DrawSphere(hits[p], hitRadius);
                     }
                 }
                 if (drawUnfold)
@@ -363,17 +363,17 @@ public class RayCastCamera : MonoBehaviour
         if (compute && intersectionCount > 0)
         {
             centroidIntersection /= intersectionCount;
-            if (otherCamera != null)
+            if (virtualProjector != null)
             {
                 Ray physicalCenterRay = new Ray(this.transform.position, this.transform.forward);
                 physicalCenterBounce = new BouncyRay(physicalCenterRay);
                 bool hit = CastRay(physicalCenterRay, ref physicalCenterBounce);
 
                 Ray TheCenterRay = physicalCenterBounce.Unfolded;// rays[idxRayOpticalCenter].Unfolded;
-                otherCamera.CopyFrom(_camera);
-                otherCamera.transform.position = centroidIntersection;
+                virtualProjector.CopyFrom(_camera);
+                virtualProjector.transform.position = centroidIntersection;
                 Debug.Log("" + idxRayOpticalCenter + ": " + TheCenterRay.origin);
-                otherCamera.transform.rotation = Quaternion.LookRotation(TheCenterRay.origin - centroidIntersection, Vector3.down);
+                virtualProjector.transform.rotation = Quaternion.LookRotation(TheCenterRay.origin - centroidIntersection, Vector3.down);
                 Gizmos.DrawLine(TheCenterRay.origin, centroidIntersection);
             }
         }

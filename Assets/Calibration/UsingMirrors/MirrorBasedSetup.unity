@@ -20,13 +20,13 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0, g: 0, b: 0, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -1834,11 +1834,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1953652882}
   - component: {fileID: 1953652881}
+  - component: {fileID: 1953652883}
+  - component: {fileID: 1953652884}
   - component: {fileID: 1953652880}
   - component: {fileID: 1953652879}
   - component: {fileID: 1953652878}
-  - component: {fileID: 1953652883}
-  - component: {fileID: 1953652884}
   m_Layer: 0
   m_Name: Physical projector (compute and debug info)
   m_TagString: MainCamera
@@ -1939,21 +1939,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0450a503951148047840c7e8adaebfbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  otherCamera: {fileID: 2042480245}
+  virtualProjector: {fileID: 2042480245}
   size: 23
-  count: 529
+  compute: 1
   drawRays: 0
   drawHits: 1
   drawUnfold: 1
-  hitRadius: 0.5
+  hitRadius: 0.7
   failColor: {r: 1, g: 1, b: 1, a: 0.25}
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 0
-  bounceMask:
-    serializedVersion: 2
-    m_Bits: 0
-  compute: 1
+  count: 529
+  coverture: 0.31758034
+  lengthAvg: 115.64939
+  lengthDev: 151.43991
+  intersectionCount: 14028
   idxRayOpticalCenter: 264
 --- !u!114 &1953652884
 MonoBehaviour:

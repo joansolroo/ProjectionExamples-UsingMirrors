@@ -13,3 +13,8 @@ The white ray is the projection of the physical forward of the projector, while 
 By rotating and moving the mirrors, the position and orientation of the virtual projector will adjust accordingly as long as the white ray hits the target surface. This will provide a solution as long as the white ray hits the target surface.
 
 ![No alt-text yet](Documentation/scene-description.png?raw=true "Scene Description")
+
+All the work is done by the RayCastCamera script attached to the physical projector. It is possible to set some parameters, notably if it needs to be recomputed or display options.
+![No alt-text yet](Documentation/display-options.png?raw=true "Solver and display options")
+
+NOTE: Given that layers are problematic when doing SAR (because they are used for rendering), at the moment the targetsurface and mirror gameobjects must be tagged using the corresponding MonoBehaviour.
