@@ -18,4 +18,4 @@ All the work is done by the RayCastCamera script attached to the physical projec
 
 ![No alt-text yet](Documentation/display-options.png?raw=true "Solver and display options")
 
-NOTE: Given that layers are problematic when doing SAR (because they are used for rendering), at the moment the targetsurface and mirror gameobjects must be tagged using the corresponding MonoBehaviour.
+NOTE: Given that layers are problematic when doing SAR (because they are used for rendering), at the moment the ProjectionTarget and Mirror gameobjects must be tagged using the corresponding MonoBehaviour.
